@@ -1,4 +1,4 @@
-package com.devnus.belloga.auth.account.event;
+package com.devnus.belloga.auth.account.dto;
 
 import com.devnus.belloga.auth.common.aop.annotation.AccountRole;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ public class EventAccount {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class saveCustomAccountEnterprise {
+    public static class registerCustomAccountEnterprise {
         private String account_id;
         private String email;
         private String name;
