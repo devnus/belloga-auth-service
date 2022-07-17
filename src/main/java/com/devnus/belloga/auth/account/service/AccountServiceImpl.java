@@ -41,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
                 .build());
 
         // save-custom-account-enterprise 토픽으로 보내기
-        EventAccount.registerCustomAccountEnterprise event = EventAccount.registerCustomAccountEnterprise.builder()
+        EventAccount.RegisterCustomAccountEnterprise event = EventAccount.RegisterCustomAccountEnterprise.builder()
                 .account_id(account.getId())
                 .email(request.getEmail())
                 .name(request.getName())
