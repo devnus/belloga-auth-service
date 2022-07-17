@@ -25,12 +25,11 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-@ActiveProfiles("local")
+@ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureRestDocs
-@EmbeddedKafka(partitions = 1,
-        topics = "register-custom-account-enterprise",
+@EmbeddedKafka(
         brokerProperties = {
                 "listeners=PLAINTEXT://localhost:9092"
         },
@@ -61,7 +60,7 @@ class AccountControllerTest {
                 .andDo(print())
 
                 //docs
-                .andDo(document("custom-account-enterprise",
+                .andDo(document("register-custom-account-enterprise",
                         requestFields(
                                 fieldWithPath("email").description("회원가입 하고자 하는 email"),
                                 fieldWithPath("name").description("회원가입 하고자 하는 name"),
