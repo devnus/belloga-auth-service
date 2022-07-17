@@ -1,0 +1,15 @@
+[[api-register-custom-account-enterprise]]
+=== 기업 사용자 자체 회원가입 API
+기업사용자가 자체(custom) 회원가입 방법으로 회원가입을 진행합니다.
+
+====== 요청 형식
+include::{snippets}/register-custom-account-enterprise/http-request.adoc[]
+====== Request Body
+include::{snippets}/register-custom-account-enterprise/request-body.adoc[]
+====== 응답 형식
+include::{snippets}/register-custom-account-enterprise/http-response.adoc[]
+include::{snippets}/register-custom-account-enterprise/response-fields.adoc[]
+====== Response Body
+include::{snippets}/register-custom-account-enterprise/response-body.adoc[]
+====== Try with curl
+include::{snippets}/register-custom-account-enterprise/curl-request.adoc[]

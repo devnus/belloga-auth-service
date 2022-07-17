@@ -1,15 +1,14 @@
-= 기업 사용자 자체 인증 회원가입
+= RESTful Notes API Guide
 :doctype: book
 :icons: font
-:source-highlighter: highlightj
+:source-highlighter: highlightjs
 :toc: left
-:toclevels: 2
+:toclevels: 4
+:sectnums:
 :sectlinks:
+:sectanchors:
 
-==== HTTP request
+== Api Docs
+API 명세서 index.html이다.
 
-include::{snippets}/custom-account-enterprise/http-request.adoc[]
-
-==== HTTP response
-
-include::{snippets}/custom-account-enterprise/http-response.adoc[]
+include::register-custom-account-enterprise.adoc[]
