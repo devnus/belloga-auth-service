@@ -1,6 +1,6 @@
 package com.devnus.belloga.auth.account.dto;
 
-import com.devnus.belloga.auth.common.aop.annotation.AccountRole;
+import com.devnus.belloga.auth.common.aop.annotation.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +17,6 @@ public class EventAccount {
         private String name;
         private String phoneNumber;
         private String organization;;
-        private AccountRole accountRole;
+        private UserRole userRole;
     }
 }
