@@ -1,6 +1,5 @@
 package com.devnus.belloga.auth.account.domain;
 
-import com.devnus.belloga.auth.common.aop.annotation.AccountRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,8 +25,4 @@ public abstract class Account {
 
     @Column(name = "is_locked")
     private boolean isLocked;
-
-    @Column(name = "account_role")
-    @Enumerated(EnumType.STRING)
-    private AccountRole accountRole;
 }
