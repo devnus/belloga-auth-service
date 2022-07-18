@@ -5,6 +5,7 @@ import com.devnus.belloga.auth.common.dto.ErrorResponse;
 import com.devnus.belloga.auth.common.exception.error.DuplicateAccountException;
 import com.devnus.belloga.auth.common.exception.error.EncryptException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -60,6 +61,27 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BindException.class)
     protected ResponseEntity<CommonResponse> handleRequestParameterBindException(BindException ex) {
         ErrorCode errorCode = ErrorCode.REQUEST_PARAMETER_BIND_EXCEPTION;
+
+        ErrorResponse error = ErrorResponse.builder()
+                .status(errorCode.getStatus().value())
+                .message(errorCode.getMessage())
+                .code(errorCode.getCode())
+                .build();
+
+        CommonResponse response = CommonResponse.builder()
+                .success(false)
+                .error(error)
+                .build();
+
+        return new ResponseEntity<>(response, errorCode.getStatus());
+    }
+
+    /**
+     * 사용자 인증이 실패했을때
+     */
+    @ExceptionHandler(AuthenticationException.class)
+    protected ResponseEntity<CommonResponse> handleAuthenticationException(AuthenticationException ex) {
+        ErrorCode errorCode = ErrorCode.AUTHENTICATION_FAILED_EXCEPTION;
 
         ErrorResponse error = ErrorResponse.builder()
                 .status(errorCode.getStatus().value())

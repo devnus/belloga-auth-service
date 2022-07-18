@@ -31,4 +31,17 @@ public class RequestAccount {
         @Size(min = 1, max = 100)
         private String organization;
     }
+
+    @Builder
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SignInCustomAccount {
+        @NotNull
+        @Email
+        private String email;
+        @NotNull
+        @Size(min = 5, max = 30)
+        private String password;
+    }
 }
