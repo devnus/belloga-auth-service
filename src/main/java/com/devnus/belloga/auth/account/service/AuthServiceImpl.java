@@ -20,16 +20,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService{
-
-    @Value("${app.jwt.secret-key}") //설정파일의 토큰 Key
-    private String secretKey;
-    @Value("${app.jwt.access-token-valid-time}") //설정파일의 토큰 유효시간
-    private Long accessTokenValidTime;
-    @Value("${app.jwt.refresh-token-valid-time}") //리프레쉬 토큰 유효시간
-    private Long refreshTokenValidTime;
+    private final String secretKey; //설정파일의 토큰 Key
+    private final Long accessTokenValidTime; //access 토큰 유효시간
+    private final Long refreshTokenValidTime; //refresh 토큰 유효시간
     private final RedisTemplate<String, String> redisTemplate;
+
+    /**
+     * 생성자 주입
+     */
+    public AuthServiceImpl(@Value("${app.jwt.secret-key}")String SECRET_KEY,
+                           @Value("${app.jwt.access-token-valid-time}")Long ACCESS_TOKEN_VALID_TIME,
+                           @Value("${app.jwt.refresh-token-valid-time}")Long REFRESH_TOKEN_VALID_TIME,
+                           RedisTemplate<String, String> redisTemplate) {
+        this.secretKey = SECRET_KEY;
+        this.accessTokenValidTime = ACCESS_TOKEN_VALID_TIME;
+        this.refreshTokenValidTime = REFRESH_TOKEN_VALID_TIME;
+        this.redisTemplate = redisTemplate;
+    }
+
 
     /**
      * 엑세스 토큰과 리프레쉬 토큰생성
