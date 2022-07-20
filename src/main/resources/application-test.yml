@@ -50,4 +50,4 @@ app:
       secret-key: test-secret-key
 
   web-client:
-    user-info-url: http://domain-name # domain name
+    base-url: http://domain-name # domain name
