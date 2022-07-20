@@ -17,11 +17,11 @@ import java.io.IOException;
 public class EmbeddedRedisConfig {
     private RedisServer redisServer;
     @Value("${spring.redis.port}")
-    private int redisPort;
+    private int REDIS_PORT;
 
     @PostConstruct
     public void startRedis() throws IOException {
-        redisServer = new RedisServer(redisPort);
+        redisServer = new RedisServer(REDIS_PORT);
         redisServer.start(); //Redis 시작
     }
 
