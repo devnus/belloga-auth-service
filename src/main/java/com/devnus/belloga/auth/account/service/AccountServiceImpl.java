@@ -65,12 +65,9 @@ public class AccountServiceImpl implements AccountService {
 
         //계정 존재 확인
         Optional<Account> account = accountRepository.findByUsername(request.getEmail() + AuthProvider.CUSTOM);
-        if(!account.isPresent()) {
-            throw new AuthenticationCredentialsNotFoundException("계정이 존재하지 않습니다");
-        }
+        CustomAccount customAccount = (CustomAccount) account.orElseThrow(()->new AuthenticationCredentialsNotFoundException("계정이 존재하지 않습니다"));
 
         //비밀번호 매치 확인
-        CustomAccount customAccount = (CustomAccount) account.get();
         if(!customAccount.getPassword().equals(SecurityUtil.encryptSHA256(request.getPassword()))){
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다");
         }
