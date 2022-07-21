@@ -1,0 +1,15 @@
+[[api-signin-custom-account]]
+=== 자체 인증 계정 로그인 API
+자체(custom) 계정 사용자가 로그인을 진행합니다.
+
+====== 요청 형식
+include::{snippets}/signin-custom-account/http-request.adoc[]
+====== Request Body
+include::{snippets}/signin-custom-account/request-body.adoc[]
+====== 응답 형식
+include::{snippets}/signin-custom-account/http-response.adoc[]
+include::{snippets}/signin-custom-account/response-fields.adoc[]
+====== Response Body
+include::{snippets}/signin-custom-account/response-body.adoc[]
+====== Try with curl
+include::{snippets}/signin-custom-account/curl-request.adoc[]

@@ -44,14 +44,14 @@ class AccountControllerTest {
     void registerCustomAccountEnterpriseTest() throws Exception {
         //give
         Map<String, String> input = new HashMap<>();
-        input.put("email", "test@test.com");
+        input.put("email", "devnus@devnus.com");
         input.put("name", "devnus_name");
         input.put("password", "devnus_password");
         input.put("organization", "devnus_organization");
         input.put("phoneNumber","01000000000");
 
         //when
-        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/v1/auth/signup/custom/account/enterprise")
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/account/v1/auth/signup/custom/account/enterprise")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(input))
         )
@@ -72,12 +72,47 @@ class AccountControllerTest {
                                 fieldWithPath("id").description("logging을 위한 api response 고유 ID"),
                                 fieldWithPath("dateTime").description("response time"),
                                 fieldWithPath("success").description("정상 응답 여부"),
-                                fieldWithPath("response.username").description("회원가입 성공한 username"),
-                                fieldWithPath("response.accountRole").description("회원가입 성공한 accountRole"),
+                                fieldWithPath("response.userRole").description("회원가입 성공한 사용자의 역할"),
                                 fieldWithPath("error").description("error 발생 시 에러 정보")
                         )
                 ))
-                .andExpect(jsonPath("$.response.username", is(notNullValue())))
-                .andExpect(jsonPath("$.response.accountRole", is(notNullValue())));
+                .andExpect(jsonPath("$.response.userRole", is(notNullValue())));
+    }
+
+    @Test
+    void signInCustomAccountTest() throws Exception {
+
+        //give
+        Map<String, String> input = new HashMap<>();
+        input.put("email", "devnus@devnus.com");
+        input.put("password", "devnus_password");
+
+        //when
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/account/v1/auth/signin/custom/account")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(input))
+                )
+                //then
+                .andExpect(status().isOk())
+                .andDo(print())
+
+                //docs
+                .andDo(document("signin-custom-account",
+                        requestFields(
+                                fieldWithPath("email").description("로그인 하고자 하는 email"),
+                                fieldWithPath("password").description("로그인 하고자 하는 password")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("logging을 위한 api response 고유 ID"),
+                                fieldWithPath("dateTime").description("response time"),
+                                fieldWithPath("success").description("정상 응답 여부"),
+                                fieldWithPath("response.accessToken").description("로그인 성공 후 발급 받는 accessToken"),
+                                fieldWithPath("response.refreshToken").description("로그인 성공 후 발급 받는 refreshToken"),
+                                fieldWithPath("error").description("error 발생 시 에러 정보")
+                        )
+                ))
+                .andExpect(jsonPath("$.response.accessToken", is(notNullValue())))
+                .andExpect(jsonPath("$.response.refreshToken", is(notNullValue())));
+
     }
 }
