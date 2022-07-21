@@ -21,7 +21,7 @@ import javax.validation.Valid;
  * @author 조광식
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/account")
 @RequiredArgsConstructor
 public class AccountController {
     private final AccountService accountService;
