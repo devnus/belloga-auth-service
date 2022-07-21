@@ -3,7 +3,6 @@ CREATE TABLE account (
     account_id VARCHAR(255) NOT NULL PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
     is_locked BOOLEAN NOT NULL,
-    account_role VARCHAR(255) Not NULL,
     dtype VARCHAR(255) NOT NULL
 );
 
