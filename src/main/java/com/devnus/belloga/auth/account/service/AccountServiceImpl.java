@@ -54,7 +54,9 @@ public class AccountServiceImpl implements AccountService {
                 .build();
         accountProducer.registerCustomAccountEnterprise(event);
 
-        return ResponseAccount.RegisterAccount.of(account);
+        return ResponseAccount.RegisterAccount.builder()
+                .userRole(UserRole.ENTERPRISE)
+                .build();
     }
 
     /**
