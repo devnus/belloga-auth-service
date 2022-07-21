@@ -7,7 +7,6 @@ import com.devnus.belloga.auth.common.util.SecurityUtil;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -92,8 +91,8 @@ public class AuthServiceImpl implements AuthService{
         redisTemplate.opsForValue().set(encryptedUserId, refreshToken, Duration.ofSeconds(refreshTokenValidTime));
 
         return ResponseAuth.Token.builder()
-                .accessToken("accessToken")
-                .refreshToken("refreshToken")
+                .accessToken(accessToken)
+                .refreshToken(refreshToken)
                 .build();
     }
 }

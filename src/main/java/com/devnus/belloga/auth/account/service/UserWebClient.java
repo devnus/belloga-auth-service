@@ -1,6 +1,7 @@
 package com.devnus.belloga.auth.account.service;
 
 import com.devnus.belloga.auth.account.dto.ResponseUser;
+import com.devnus.belloga.auth.common.aop.annotation.UserRole;
 import com.devnus.belloga.auth.common.dto.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -19,7 +20,7 @@ public class UserWebClient {
 
         CommonResponse commonResponse = webClient
                 .get()
-                .uri("/api/v1/users/accounts/{accountId}", accountId)
+                .uri("/api/user/v1/users/accounts/{accountId}", accountId)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(CommonResponse.class)
