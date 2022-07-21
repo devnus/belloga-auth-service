@@ -3,6 +3,7 @@ package com.devnus.belloga.auth.common.util;
 import com.devnus.belloga.auth.common.exception.error.EncryptException;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -13,6 +14,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.security.*;
 
+@Component
 public class SecurityUtil {
 
     /**
@@ -24,8 +26,8 @@ public class SecurityUtil {
      * static 변수에 @Value어노테이션이 적용 되도록하는 setter
      */
     @Value("${app.jwt.payload.secret-key}")
-    public void setSecretKey(String value) {
-        secretKey = value;
+    public void setSecretKey(String secretKey) {
+        SecurityUtil.secretKey = secretKey;
     }
 
     /**
