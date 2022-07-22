@@ -61,7 +61,7 @@ public class AuthServiceImpl implements AuthService{
         //payload 설정
         Map<String, Object> payloads = new HashMap<>();
         payloads.put("userId", encryptedUserId);
-        payloads.put("accountRole", userRole);
+        payloads.put("userRole", userRole);
 
         Date accessTokenExpirationDate = new Date(System.currentTimeMillis() + accessTokenValidTime * 1000L); //엑세스 토큰 만료 시간
         Date refreshTokenExpirationDate = new Date(System.currentTimeMillis() + refreshTokenValidTime * 1000L); //리프레시 토큰 만료 시간
