@@ -18,19 +18,14 @@ public class UserWebClient {
      */
     public ResponseUser.UserInfo getUserInfo(String accountId) {
 
-//        CommonResponse commonResponse = webClient
-//                .get()
-//                .uri("/api/user/v1/users/accounts/{accountId}", accountId)
-//                .accept(MediaType.APPLICATION_JSON)
-//                .retrieve()
-//                .bodyToMono(CommonResponse.class)
-//                .block();
+        CommonResponse commonResponse = webClient
+                .get()
+                .uri("/api/user/v1/users/accounts/{accountId}", accountId)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(CommonResponse.class)
+                .block();
 
-        return ResponseUser.UserInfo.builder()
-                .userId("user-id")
-                .userRole(UserRole.ENTERPRISE)
-                .build();
-
-        //return (ResponseUser.UserInfo) commonResponse.getResponse();
+        return (ResponseUser.UserInfo) commonResponse.getResponse();
     }
 }
