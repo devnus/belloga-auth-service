@@ -43,16 +43,16 @@ public class AccountServiceImpl implements AccountService {
                 .isLocked(false)
                 .build());
 
-        // save-custom-account-enterprise 토픽으로 보내기
-        EventAccount.RegisterCustomAccountEnterprise event = EventAccount.RegisterCustomAccountEnterprise.builder()
-                .account_id(account.getId())
+        // save-account-enterprise 토픽으로 보내기
+        EventAccount.RegisterAccountEnterprise event = EventAccount.RegisterAccountEnterprise.builder()
+                .accountId(account.getId())
                 .email(request.getEmail())
                 .name(request.getName())
                 .phoneNumber(request.getPhoneNumber())
                 .organization(request.getOrganization())
                 .userRole(UserRole.ENTERPRISE)
                 .build();
-        accountProducer.registerCustomAccountEnterprise(event);
+        accountProducer.registerAccountEnterprise(event);
 
         return ResponseAccount.RegisterAccount.builder()
                 .userRole(UserRole.ENTERPRISE)

@@ -11,8 +11,8 @@ public class EventAccount {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class RegisterCustomAccountEnterprise {
-        private String account_id;
+    public static class RegisterAccountEnterprise {
+        private String accountId;
         private String email;
         private String name;
         private String phoneNumber;

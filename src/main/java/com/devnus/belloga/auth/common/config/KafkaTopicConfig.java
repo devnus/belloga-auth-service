@@ -16,8 +16,8 @@ public class KafkaTopicConfig {
     @Value("${spring.kafka.producer.bootstrap-servers}")
     private String BOOTSTRAP_SERVERS;
 
-    @Value(value = "${app.topic.account.register-custom-account-enterprise}")
-    private String REGISTER_CUSTOM_ACCOUNT_ENTERPRISE_TOPIC;
+    @Value(value = "${app.topic.account.register-account-enterprise}")
+    private String REGISTER_ACCOUNT_ENTERPRISE_TOPIC;
 
     @Bean
     public KafkaAdmin kafkaAdmin() {
@@ -33,7 +33,7 @@ public class KafkaTopicConfig {
      */
     @Bean
     public NewTopic registerCustomAccountEnterpriseTopic() {
-        return TopicBuilder.name(REGISTER_CUSTOM_ACCOUNT_ENTERPRISE_TOPIC)
+        return TopicBuilder.name(REGISTER_ACCOUNT_ENTERPRISE_TOPIC)
                 .partitions(1)
                 .replicas(1)
                 .compact()

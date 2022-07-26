@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AccountProducer {
     private final KafkaTemplate<String, Object> kafkaTemplate;
-    @Value(value = "${app.topic.account.register-custom-account-enterprise}")
-    private String REGISTER_CUSTOM_ACCOUNT_ENTERPRISE_TOPIC;
+    @Value(value = "${app.topic.account.register-account-enterprise}")
+    private String REGISTER_ACCOUNT_ENTERPRISE_TOPIC;
 
-    public void registerCustomAccountEnterprise(Object event) {
-        kafkaTemplate.send(REGISTER_CUSTOM_ACCOUNT_ENTERPRISE_TOPIC, event);
+    public void registerAccountEnterprise(Object event) {
+        kafkaTemplate.send(REGISTER_ACCOUNT_ENTERPRISE_TOPIC, event);
     }
 }

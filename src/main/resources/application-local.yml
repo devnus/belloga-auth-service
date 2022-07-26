@@ -41,7 +41,7 @@ spring:
 app:
   topic:
     account:
-      register-custom-account-enterprise: register-custom-account-enterprise
+      register-account-enterprise: register-account-enterprise
   jwt:
     access-token-valid-time: 3600 #Access token validity time in seconds (1 hours)
     refresh-token-valid-time: 1209600 #Refresh token validity time in seconds (2 weeks)
@@ -51,4 +51,4 @@ app:
       iv: test-jwt-payload-iv #AES256 iv는 16자리 이상
 
   web-client:
-    base-url: http://belloga.com # domain name
+    base-url: http://api.belloga.com # domain name
