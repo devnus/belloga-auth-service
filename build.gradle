@@ -76,7 +76,7 @@ openapi3 {
 	description = 'My API description'
 	version = '0.0.1'
 	format = 'json'
-	outputFileNamePrefix = 'open-api-3'
+	outputFileNamePrefix = 'open-api-3-auth-service'
 	outputDirectory = 'src/main/resources/static/docs'
 }
 
