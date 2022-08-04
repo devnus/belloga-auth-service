@@ -44,10 +44,10 @@ class AccountControllerTest {
     void registerCustomAccountEnterpriseTest() throws Exception {
         //give
         Map<String, String> input = new HashMap<>();
-        input.put("email", "devnus@devnus.com");
-        input.put("name", "devnus_name");
-        input.put("password", "devnus_password");
-        input.put("organization", "devnus_organization");
+        input.put("email", "test@test.com");
+        input.put("name", "test_name");
+        input.put("password", "test_password");
+        input.put("organization", "test_organization");
         input.put("phoneNumber","01000000000");
 
         //when
