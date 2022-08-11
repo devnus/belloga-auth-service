@@ -93,10 +93,12 @@ pipeline {
                 }
             }
         }
+        // 도커 이미지를 만든다. build number로 태그를 주되 latest 태그도 부여한다.
         stage('dockerizing project') {
             steps {
                 sh '''
         		 docker build -t $IMAGE_NAME:$BUILD_NUMBER .
+        		 docker tag $IMAGE_NAME:$BUILD_NUMBER $IMAGE_NAME:latest
         		 '''
             }
             post {
@@ -108,6 +110,7 @@ pipeline {
                 }
             }
         }
+        // 빌드넘버 태그와 latest 태그 둘 다 올린다.
         stage('upload aws ECR') {
             steps {
                 script{
@@ -116,6 +119,7 @@ pipeline {
 
                     docker.withRegistry("https://${ECR_PATH}", "ecr:${REGION}:${AWS_CREDENTIAL_NAME}") {
                       docker.image("${IMAGE_NAME}:${BUILD_NUMBER}").push()
+                      docker.image("${IMAGE_NAME}:latest").push()
                     }
                 }
             }

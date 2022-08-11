@@ -36,7 +36,6 @@ public class KafkaTopicConfig {
         return TopicBuilder.name(REGISTER_ACCOUNT_ENTERPRISE_TOPIC)
                 .partitions(1)
                 .replicas(1)
-                .compact()
                 .build();
     }
 }
