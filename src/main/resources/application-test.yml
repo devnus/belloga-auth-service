@@ -51,4 +51,4 @@ app:
       iv: test-jwt-payload-iv #AES256 iv는 16자리 이상
 
   web-client:
-    base-url: http://a138b0b67de234557afc8eaf29aa97b6-1258302528.ap-northeast-2.elb.amazonaws.com
+    base-url: http://af13e25e0bf784b9d980f772393690ae-912693386.ap-northeast-2.elb.amazonaws.com
