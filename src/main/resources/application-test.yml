@@ -50,3 +50,4 @@ app:
 
   web-client:
     base-url: http://af13e25e0bf784b9d980f772393690ae-912693386.ap-northeast-2.elb.amazonaws.com
+    base-url-naver: https://openapi.naver.com

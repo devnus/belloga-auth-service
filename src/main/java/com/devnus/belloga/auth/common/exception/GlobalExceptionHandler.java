@@ -4,6 +4,7 @@ import com.devnus.belloga.auth.common.dto.CommonResponse;
 import com.devnus.belloga.auth.common.dto.ErrorResponse;
 import com.devnus.belloga.auth.common.exception.error.DuplicateAccountException;
 import com.devnus.belloga.auth.common.exception.error.EncryptException;
+import com.devnus.belloga.auth.common.exception.error.InvalidOauthException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindException;
@@ -96,5 +97,27 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(response, errorCode.getStatus());
     }
+
+    /**
+     * 유효하지 않는 Oauth 정보일때
+     */
+    @ExceptionHandler(InvalidOauthException.class)
+    protected ResponseEntity<CommonResponse> handleInvalidOauthException(InvalidOauthException ex) {
+        ErrorCode errorCode = ErrorCode.OAUTH_AUTHENTICATION_FAILED_EXCEPTION;
+
+        ErrorResponse error = ErrorResponse.builder()
+                .status(errorCode.getStatus().value())
+                .message(errorCode.getMessage())
+                .code(errorCode.getCode())
+                .build();
+
+        CommonResponse response = CommonResponse.builder()
+                .success(false)
+                .error(error)
+                .build();
+
+        return new ResponseEntity<>(response, errorCode.getStatus());
+    }
+
 
 }

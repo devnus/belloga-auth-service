@@ -44,4 +44,13 @@ public class RequestAccount {
         @Size(min = 5, max = 30)
         private String password;
     }
+
+    @Builder
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class SignInNaverAccount {
+        @NotNull
+        private String token;
+    }
 }

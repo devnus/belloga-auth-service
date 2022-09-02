@@ -12,3 +12,10 @@ CREATE TABLE custom (
     password VARCHAR(255) NOT NULL,
     FOREIGN KEY (account_id) REFERENCES account (account_id)
 );
+
+/* oauth 계정 정보를 저장할 테이블 */
+CREATE TABLE oauth (
+    account_id VARCHAR(255) NOT NULL PRIMARY KEY,
+    auth_provider VARCHAR(255) NOT NULL,
+    FOREIGN KEY (account_id) REFERENCES account (account_id)
+);

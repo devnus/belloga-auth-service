@@ -1,5 +1,6 @@
 package com.devnus.belloga.auth.account.service;
 
+import com.devnus.belloga.auth.account.dto.RequestUser;
 import com.devnus.belloga.auth.account.dto.ResponseUser;
 import com.devnus.belloga.auth.common.dto.CommonResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -23,6 +24,21 @@ public class UserWebClient {
         CommonResponse commonResponse = webClient
                 .get()
                 .uri("/api/user/v1/users/accounts/{accountId}", accountId)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(CommonResponse.class)
+                .block();
+
+        //LinkedHashMap으로 역직렬화 된 commonResponse의 response 값을 ResponseUser.UserInfo타입으로 형변환
+        return objectMapper.convertValue(commonResponse.getResponse(), new TypeReference<ResponseUser.UserInfo>() {});
+    }
+
+    public ResponseUser.UserInfo saveUserInfo(RequestUser.RegisterOauthUser request) {
+
+        CommonResponse commonResponse = webClient
+                .post()
+                .uri("/api/user/v1/user")
+                .bodyValue(request)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(CommonResponse.class)
