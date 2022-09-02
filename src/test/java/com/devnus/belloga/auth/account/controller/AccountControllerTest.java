@@ -115,4 +115,37 @@ class AccountControllerTest {
                 .andExpect(jsonPath("$.response.refreshToken", is(notNullValue())));
 
     }
+
+    @Test
+    void signInNaverAccountTest() throws Exception {
+
+        //give
+        Map<String, String> input = new HashMap<>();
+        input.put("token", "naver-oauth-access-token");
+
+        //when
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/account/v1/auth/signin/naver/account")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(input))
+                )
+                //then
+                .andExpect(status().isUnauthorized())
+                .andDo(print())
+
+                //docs
+                .andDo(document("signin-naver-account",
+                        requestFields(
+                                fieldWithPath("token").description("네이버 인증 후 네이버로 부터 받은 access_token")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("logging을 위한 api response 고유 ID"),
+                                fieldWithPath("dateTime").description("response time"),
+                                fieldWithPath("success").description("정상 응답 여부"),
+                                fieldWithPath("response").description("로그인 성공 후 발급 받는 accessToken 와 refreshToken"),
+                                fieldWithPath("error.code").description("error 발생 시 에러 code"),
+                                fieldWithPath("error.message").description("error 발생 시 에러 message"),
+                                fieldWithPath("error.status").description("error 발생 시 에러 status")
+                        )
+                ));
+    }
 }
