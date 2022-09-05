@@ -39,7 +39,8 @@ spring:
 app:
   topic:
     account:
-      register-account-enterprise: register-account-enterprise
+      register-enterprise: register-enterprise
+      register-labeler: register-labeler
   jwt:
     access-token-valid-time: 3600 #Access token validity time in seconds (1 hours)
     refresh-token-valid-time: 1209600 #Refresh token validity time in seconds (2 weeks)

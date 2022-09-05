@@ -11,12 +11,23 @@ public class EventAccount {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class RegisterAccountEnterprise {
+    public static class RegisterEnterprise {
         private String accountId;
         private String email;
         private String name;
         private String phoneNumber;
         private String organization;;
-        private UserRole userRole;
+    }
+
+    @Builder
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class RegisterLabeler {
+        private String accountId;
+        private String email;
+        private String name;
+        private String phoneNumber;
+        private String birthYear;
     }
 }

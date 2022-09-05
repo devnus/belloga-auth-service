@@ -43,17 +43,17 @@ public class AuthServiceImpl implements AuthService{
      * 엑세스 토큰과 리프레쉬 토큰생성
      */
     @Override
-    public ResponseAuth.Token generateToken(String userId, UserRole userRole) {
+    public ResponseAuth.Token generateToken(String accountId, UserRole userRole) {
 
         //Header 설정
         Map<String, Object> headers = new HashMap<>();
         headers.put("typ", "JWT");
         headers.put("alg", "HS256");
 
-        //userId 암호화
+        //accountId 암호화
         String encryptedUserId;
         try{
-            encryptedUserId = SecurityUtil.encryptAES256(userId + new Date(System.currentTimeMillis()));
+            encryptedUserId = SecurityUtil.encryptAES256(accountId + new Date(System.currentTimeMillis()));
         } catch (Exception e) {
             throw new EncryptException(e);
         }

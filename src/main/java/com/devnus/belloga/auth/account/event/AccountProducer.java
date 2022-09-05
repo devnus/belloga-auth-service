@@ -9,10 +9,16 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class AccountProducer {
     private final KafkaTemplate<String, Object> kafkaTemplate;
-    @Value(value = "${app.topic.account.register-account-enterprise}")
-    private String REGISTER_ACCOUNT_ENTERPRISE_TOPIC;
+    @Value(value = "${app.topic.account.register-enterprise}")
+    private String REGISTER_ENTERPRISE_TOPIC;
+    @Value(value = "${app.topic.account.register-labeler}")
+    private String REGISTER_LABELER_TOPIC;
 
-    public void registerAccountEnterprise(Object event) {
-        kafkaTemplate.send(REGISTER_ACCOUNT_ENTERPRISE_TOPIC, event);
+    public void registerEnterprise(Object event) {
+        kafkaTemplate.send(REGISTER_ENTERPRISE_TOPIC, event);
+    }
+
+    public void registerLabeler(Object event) {
+        kafkaTemplate.send(REGISTER_LABELER_TOPIC, event);
     }
 }
