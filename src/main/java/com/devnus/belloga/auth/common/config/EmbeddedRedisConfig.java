@@ -13,7 +13,7 @@ import java.io.IOException;
  * Embedded Redis의 Start 및 Stop 설정
  */
 @Configuration
-@Profile({"test"})
+@Profile({"test", "local"})
 public class EmbeddedRedisConfig {
     private RedisServer redisServer;
     @Value("${spring.redis.port}")
