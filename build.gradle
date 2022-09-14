@@ -46,6 +46,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.16.2'
 	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-sleuth-zipkin', version: '3.1.4'   // zipkin
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth', version: '3.1.4'   // sleuth
 }
 
 ext {
