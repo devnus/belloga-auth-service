@@ -9,6 +9,8 @@ import com.devnus.belloga.auth.account.service.AuthService;
 import com.devnus.belloga.auth.account.service.OauthWebClient;
 import com.devnus.belloga.auth.common.dto.CommonResponse;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/account")
 @RequiredArgsConstructor
 public class AccountController {
+    private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
     private final AccountService accountService;
     private final OauthWebClient oauthWebClient;
     private final AuthService authService;
@@ -31,7 +34,7 @@ public class AccountController {
      */
     @PostMapping("/v1/auth/signup/custom/account/enterprise")
     public ResponseEntity<CommonResponse> registerCustomAccountEnterprise(@Valid @RequestBody RequestAccount.RegisterCustomAccountEnterprise request) {
-
+        logger.info("register custom account enterprise auth-service");
         CommonResponse response = CommonResponse.builder()
                 .success(true)
                 .response(accountService.saveCustomAccount(request))
@@ -45,7 +48,7 @@ public class AccountController {
      */
     @PostMapping("/v1/auth/signin/custom/account")
     public ResponseEntity<CommonResponse> signInCustomAccount(@Valid @RequestBody RequestAccount.SignInCustomAccount request) {
-
+        logger.info("login custom account enterprise auth-service");
         ResponseAccount.SignInAccount signInAccount = accountService.authenticateCustomAccount(request);
 
         CommonResponse response = CommonResponse.builder()
@@ -62,7 +65,7 @@ public class AccountController {
      */
     @PostMapping("/v1/auth/signin/naver/account")
     public ResponseEntity<CommonResponse> signInNaverAccount(@Valid @RequestBody RequestAccount.SignInNaverAccount request) {
-
+        logger.info("register sign in naver account auth-service");
         ResponseOauth.UserInfo oauthInfo = oauthWebClient.getNaverInfo(request.getToken()); //토큰을 통해 네이버 사용자 정보를 가져옴
         ResponseAccount.SignInAccount signInAccount = accountService.authenticateOauthAccount(oauthInfo, AuthProvider.NAVER); //계정 인증
 
