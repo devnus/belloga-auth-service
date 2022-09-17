@@ -5,4 +5,4 @@ spring:
     sampler:
       probability: 1.0 # Zipkin에 트랜젝션을 어느정도의 비율로 보낼지에 대한 값이다. 기본값은 10%(0.1)이며, 1.0이면 트랜젝션을 100% 보내게 된다.
   zipkin:
-    base-url: http://belloga-zipkin.default.svc.cluster.local:9411 # zipkin 경로
+    base-url: http://belloga-zipkin:9411 # zipkin 경로
