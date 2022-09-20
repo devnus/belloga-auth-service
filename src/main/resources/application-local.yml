@@ -50,5 +50,5 @@ app:
       iv: test-jwt-payload-iv #AES256 iv는 16자리 이상
 
   web-client:
-    base-url: http://af13e25e0bf784b9d980f772393690ae-912693386.ap-northeast-2.elb.amazonaws.com
+    base-url: http://a29ff9c78325941068e9165fec90c0ba-2660e5fddc41876d.elb.ap-northeast-2.amazonaws.com
     base-url-naver: https://openapi.naver.com
