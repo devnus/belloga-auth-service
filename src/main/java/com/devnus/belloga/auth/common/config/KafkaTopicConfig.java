@@ -20,13 +20,6 @@ public class KafkaTopicConfig {
     @Value(value = "${app.topic.account.register-labeler}")
     private String REGISTER_LABELER_TOPIC;
 
-    @Bean
-    public KafkaAdmin kafkaAdmin() {
-        Map<String, Object> configs = new HashMap<>();
-        configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVERS);
-        return new KafkaAdmin(configs);
-    }
-
     /**
      * 기업 사용자 회원가입시 사용하는 카프카의 토픽 생성
      * 같은 이름의 토픽이 등록되어 있다면 동작하지 않음
