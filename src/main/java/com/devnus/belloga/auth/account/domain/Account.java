@@ -1,6 +1,7 @@
 package com.devnus.belloga.auth.account.domain;
 
 import com.devnus.belloga.auth.common.aop.annotation.UserRole;
+import com.devnus.belloga.auth.common.domain.BaseTimeEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @SuperBuilder
 @Getter
-public abstract class Account {
+public abstract class Account extends BaseTimeEntity {
     @Id
     @Column(name = "account_id")
     private String id;
