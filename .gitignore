@@ -38,3 +38,6 @@ out/
 
 ## 문서화 결과 무시
 src/main/resources/static/docs/
+
+### prod application ignore
+application-prod.yml
