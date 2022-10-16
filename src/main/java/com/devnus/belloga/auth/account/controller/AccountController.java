@@ -2,6 +2,7 @@ package com.devnus.belloga.auth.account.controller;
 
 import com.devnus.belloga.auth.account.domain.AuthProvider;
 import com.devnus.belloga.auth.account.dto.RequestAccount;
+import com.devnus.belloga.auth.account.dto.RequestAuth;
 import com.devnus.belloga.auth.account.dto.ResponseAccount;
 import com.devnus.belloga.auth.account.dto.ResponseOauth;
 import com.devnus.belloga.auth.account.service.AccountService;
@@ -72,6 +73,21 @@ public class AccountController {
         CommonResponse response = CommonResponse.builder()
                 .success(true)
                 .response(authService.generateToken(signInAccount.getAccountId(), signInAccount.getUserRole()))
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * 리프레쉬 토큰을 이용해 엑세스 토큰 재 발급
+     */
+    @PostMapping("/v1/auth/reissue")
+    public ResponseEntity<CommonResponse> reissue(@Valid @RequestBody RequestAuth.Reissue request) {
+        logger.info("reissue token in auth-service");
+
+        CommonResponse response = CommonResponse.builder()
+                .success(true)
+                .response(authService.reissueToken(request.getRefreshToken()))
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);

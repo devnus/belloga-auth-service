@@ -3,37 +3,25 @@ package com.devnus.belloga.auth.account.service;
 import com.devnus.belloga.auth.account.dto.ResponseAuth;
 import com.devnus.belloga.auth.common.aop.annotation.UserRole;
 import com.devnus.belloga.auth.common.exception.error.EncryptException;
+import com.devnus.belloga.auth.common.exception.error.InvalidTokenException;
+import com.devnus.belloga.auth.common.util.JwtUtil;
 import com.devnus.belloga.auth.common.util.SecurityUtil;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
-import java.security.Key;
 import java.time.Duration;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class AuthServiceImpl implements AuthService{
-    private final String secretKey; //설정파일의 토큰 Key
-    private final Long accessTokenValidTime; //access 토큰 유효시간
     private final Long refreshTokenValidTime; //refresh 토큰 유효시간
     private final RedisTemplate<String, String> redisTemplate;
 
     /**
      * 생성자 주입
      */
-    public AuthServiceImpl(@Value("${app.jwt.secret-key}")String SECRET_KEY,
-                           @Value("${app.jwt.access-token-valid-time}")Long ACCESS_TOKEN_VALID_TIME,
-                           @Value("${app.jwt.refresh-token-valid-time}")Long REFRESH_TOKEN_VALID_TIME,
-                           RedisTemplate<String, String> redisTemplate) {
-        this.secretKey = SECRET_KEY;
-        this.accessTokenValidTime = ACCESS_TOKEN_VALID_TIME;
+    public AuthServiceImpl(@Value("${app.jwt.refresh-token-valid-time}")Long REFRESH_TOKEN_VALID_TIME, RedisTemplate<String, String> redisTemplate) {
         this.refreshTokenValidTime = REFRESH_TOKEN_VALID_TIME;
         this.redisTemplate = redisTemplate;
     }
@@ -45,11 +33,6 @@ public class AuthServiceImpl implements AuthService{
     @Override
     public ResponseAuth.Token generateToken(String accountId, UserRole userRole) {
 
-        //Header 설정
-        Map<String, Object> headers = new HashMap<>();
-        headers.put("typ", "JWT");
-        headers.put("alg", "HS256");
-
         //accountId 암호화
         String encryptedUserId;
         try{
@@ -58,41 +41,44 @@ public class AuthServiceImpl implements AuthService{
             throw new EncryptException(e);
         }
 
-        //payload 설정
-        Map<String, Object> payloads = new HashMap<>();
-        payloads.put("userId", encryptedUserId);
-        payloads.put("userRole", userRole);
-
-        Date accessTokenExpirationDate = new Date(System.currentTimeMillis() + accessTokenValidTime * 1000L); //엑세스 토큰 만료 시간
-        Date refreshTokenExpirationDate = new Date(System.currentTimeMillis() + refreshTokenValidTime * 1000L); //리프레시 토큰 만료 시간
-
-        Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
-
-        //accessToken 생성
-        String accessToken = Jwts.builder()
-                .setHeader(headers) //Headers 설정
-                .setClaims(payloads) //Claims 설정
-                .setSubject("accessToken") //토큰 용도
-                .setExpiration(accessTokenExpirationDate) //토큰 만료 시간
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
-
-        //refreshToken 생성
-        String refreshToken = Jwts.builder()
-                .setHeader(headers) //Headers 설정
-                .setClaims(payloads) //Claims 설정
-                .setSubject("refreshToken") //토큰 용도
-                .setExpiration(refreshTokenExpirationDate) //토큰 만료 시간
-                .signWith(key, SignatureAlgorithm.HS256)
-                .compact();
+        //토큰 생성
+        ResponseAuth.Token token = JwtUtil.generate(encryptedUserId, userRole.name());
 
         //refreshToken 정보 Redis에 만료시간을 설정해서 저장 (key:encryptedUserId, value:refreshToken)
         //키에 이미 값이 있으면 덮어 쓴다
-        redisTemplate.opsForValue().set(encryptedUserId, refreshToken, Duration.ofSeconds(refreshTokenValidTime));
+        redisTemplate.opsForValue().set(encryptedUserId, token.getRefreshToken(), Duration.ofSeconds(refreshTokenValidTime));
 
-        return ResponseAuth.Token.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .build();
+        return token;
+    }
+
+    /**
+     * 리프레쉬 토큰을 이용한 엑세스 토큰 재 발급
+     */
+    @Override
+    public ResponseAuth.Token reissueToken(String refreshToken){
+
+        //refreshToken 검증
+        JwtUtil.validate(refreshToken);
+
+        String encryptedUserIdByToken = JwtUtil.getEncryptedUserId(refreshToken);
+        String userRoleByToken = JwtUtil.getUserRole(refreshToken);
+
+        String refreshTokenByRedis = redisTemplate.opsForValue().get(encryptedUserIdByToken);
+
+        // Redis 의 refreshToken 값과 비교
+        if(!refreshToken.equals(refreshTokenByRedis)){
+            throw new InvalidTokenException();
+        }
+
+        //토큰 재 발급
+
+        //토큰 생성
+        ResponseAuth.Token token = JwtUtil.generate(encryptedUserIdByToken, userRoleByToken);
+
+        //refreshToken 정보 Redis에 만료시간을 설정해서 저장 (key:encryptedUserId, value:refreshToken)
+        //키에 이미 값이 있으면 덮어 쓴다
+        redisTemplate.opsForValue().set(encryptedUserIdByToken, token.getRefreshToken(), Duration.ofSeconds(refreshTokenValidTime));
+
+        return token;
     }
 }

@@ -1,5 +1,8 @@
 package com.devnus.belloga.auth.account.controller;
 
+import com.devnus.belloga.auth.account.dto.ResponseAuth;
+import com.devnus.belloga.auth.account.service.AuthServiceImpl;
+import com.devnus.belloga.auth.common.aop.annotation.UserRole;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +42,9 @@ class AccountControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private AuthServiceImpl authService;
 
     @Test
     void registerCustomAccountEnterpriseTest() throws Exception {
@@ -147,5 +153,45 @@ class AccountControllerTest {
                                 fieldWithPath("error.status").description("error 발생 시 에러 status")
                         )
                 ));
+    }
+
+    @Test
+    void reissueTokenTest() throws Exception {
+
+        //give
+
+        //토큰 발급
+        ResponseAuth.Token generateToken = authService.generateToken("reissue_account_id", UserRole.LABELER);
+
+        //발급받은 리프레쉬 토큰으로 토큰 재발급
+        Map<String, String> input = new HashMap<>();
+        input.put("refreshToken", generateToken.getRefreshToken());
+
+        //when
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/account/v1/auth/reissue")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(input))
+                )
+                //then
+                .andExpect(status().isOk())
+                .andDo(print())
+
+                //docs
+                .andDo(document("reissue-token",
+                        requestFields(
+                                fieldWithPath("refreshToken").description("토큰을 재발급 받으려는 refreshToken")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("logging을 위한 api response 고유 ID"),
+                                fieldWithPath("dateTime").description("response time"),
+                                fieldWithPath("success").description("정상 응답 여부"),
+                                fieldWithPath("response.accessToken").description("재발급 받는 accessToken"),
+                                fieldWithPath("response.refreshToken").description("재발급 받는 refreshToken"),
+                                fieldWithPath("error").description("error 발생 시 에러 정보")
+                        )
+                ))
+                .andExpect(jsonPath("$.response.accessToken", is(notNullValue())))
+                .andExpect(jsonPath("$.response.refreshToken", is(notNullValue())));
+
     }
 }

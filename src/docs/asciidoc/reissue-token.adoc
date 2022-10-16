@@ -1,0 +1,15 @@
+[[api-reissue-token]]
+=== 리프레쉬 토큰으로 토큰 재발급 API
+리프레쉬 토큰을 이용해 토큰을 재발급 합니다
+
+====== 요청 형식
+include::{snippets}/reissue-token/http-request.adoc[]
+====== Request Body
+include::{snippets}/reissue-token/request-body.adoc[]
+====== 응답 형식
+include::{snippets}/reissue-token/http-response.adoc[]
+include::{snippets}/reissue-token/response-fields.adoc[]
+====== Response Body
+include::{snippets}/reissue-token/response-body.adoc[]
+====== Try with curl
+include::{snippets}/reissue-token/curl-request.adoc[]
