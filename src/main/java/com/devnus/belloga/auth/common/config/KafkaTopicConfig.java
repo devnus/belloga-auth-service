@@ -19,6 +19,10 @@ public class KafkaTopicConfig {
     private String REGISTER_ENTERPRISE_TOPIC;
     @Value(value = "${app.topic.account.register-labeler}")
     private String REGISTER_LABELER_TOPIC;
+    @Value(value = "${app.topic.account.register-enterprise-saga}")
+    private String REGISTER_ENTERPRISE_SAGA_TOPIC;
+    @Value(value = "${app.topic.account.register-labeler-saga}")
+    private String REGISTER_LABELER_SAGA_TOPIC;
 
     /**
      * 기업 사용자 회원가입시 사용하는 카프카의 토픽 생성
@@ -41,6 +45,30 @@ public class KafkaTopicConfig {
     @Bean
     public NewTopic registerLabelerTopic() {
         return TopicBuilder.name(REGISTER_LABELER_TOPIC)
+                .partitions(1)
+                .replicas(1)
+                .build();
+    }
+
+    /**
+     * 기업 사용자 등록 후 사가패턴 처리를 위한 토픽
+     * @return
+     */
+    @Bean
+    public NewTopic registerEnterpriseSagaTopic() {
+        return TopicBuilder.name(REGISTER_ENTERPRISE_SAGA_TOPIC)
+                .partitions(1)
+                .replicas(1)
+                .build();
+    }
+
+    /**
+     * 일반 사용자 등록 후 사가패턴 처리를 위한 토픽
+     * @return
+     */
+    @Bean
+    public NewTopic registerLabelerSagaTopic() {
+        return TopicBuilder.name(REGISTER_LABELER_SAGA_TOPIC)
                 .partitions(1)
                 .replicas(1)
                 .build();

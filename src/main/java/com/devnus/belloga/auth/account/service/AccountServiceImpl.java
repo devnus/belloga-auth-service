@@ -9,13 +9,14 @@ import com.devnus.belloga.auth.account.event.AccountProducer;
 import com.devnus.belloga.auth.account.repository.AccountRepository;
 import com.devnus.belloga.auth.common.aop.annotation.UserRole;
 import com.devnus.belloga.auth.common.exception.error.DuplicateAccountException;
+import com.devnus.belloga.auth.common.exception.error.NotFoundAccountException;
 import com.devnus.belloga.auth.common.util.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -136,5 +137,20 @@ public class AccountServiceImpl implements AccountService {
                 .accountId(oauthAccount.getId())
                 .userRole(oauthAccount.getUserRole())
                 .build();
+    }
+
+    /**
+     * 보상 트랜잭션으로 계정을 삭제한다.
+     * @param accountId
+     * @return
+     */
+    @Transactional
+    @Override
+    public boolean deleteRegisteredAccount(String accountId) {
+        Optional<Account> account = accountRepository.findById(accountId);
+        account.orElseThrow(()->new NotFoundAccountException());
+
+        accountRepository.delete(account);
+        return true;
     }
 }
