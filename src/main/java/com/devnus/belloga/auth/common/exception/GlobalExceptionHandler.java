@@ -2,10 +2,7 @@ package com.devnus.belloga.auth.common.exception;
 
 import com.devnus.belloga.auth.common.dto.CommonResponse;
 import com.devnus.belloga.auth.common.dto.ErrorResponse;
-import com.devnus.belloga.auth.common.exception.error.DuplicateAccountException;
-import com.devnus.belloga.auth.common.exception.error.EncryptException;
-import com.devnus.belloga.auth.common.exception.error.InvalidOauthException;
-import com.devnus.belloga.auth.common.exception.error.InvalidTokenException;
+import com.devnus.belloga.auth.common.exception.error.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindException;
@@ -141,5 +138,27 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, errorCode.getStatus());
     }
 
+    /**
+     * 계정을 찿을 수 없을 때
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(NotFoundAccountException.class)
+    protected ResponseEntity<CommonResponse> handleNotFoundAccountException(NotFoundAccountException ex) {
+        ErrorCode errorCode = ErrorCode.NOT_FOUND_ACCOUNT_EXCEPTION;
+
+        ErrorResponse error = ErrorResponse.builder()
+                .status(errorCode.getStatus().value())
+                .message(errorCode.getMessage())
+                .code(errorCode.getCode())
+                .build();
+
+        CommonResponse response = CommonResponse.builder()
+                .success(false)
+                .error(error)
+                .build();
+
+        return new ResponseEntity<>(response, errorCode.getStatus());
+    }
 
 }
