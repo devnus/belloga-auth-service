@@ -147,8 +147,8 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     @Override
     public boolean deleteRegisteredAccount(String accountId) {
-        Optional<Account> account = accountRepository.findById(accountId);
-        account.orElseThrow(()->new NotFoundAccountException());
+        Optional<Account> optionalAccount = accountRepository.findById(accountId);
+        Account account = optionalAccount.orElseThrow(()->new NotFoundAccountException());
 
         accountRepository.delete(account);
         return true;
