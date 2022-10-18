@@ -10,4 +10,5 @@ public interface AccountService {
     ResponseAccount.RegisterAccount saveCustomAccount(RequestAccount.RegisterCustomAccountEnterprise request);
     ResponseAccount.SignInAccount authenticateOauthAccount(ResponseOauth.UserInfo userInfo, AuthProvider authProvider);
     ResponseAccount.SignInAccount saveOauthAccount(ResponseOauth.UserInfo userInfo, AuthProvider authProvider);
+    boolean deleteRegisteredAccount(String accountId);
 }
