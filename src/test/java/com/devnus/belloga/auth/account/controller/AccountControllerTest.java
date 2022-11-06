@@ -86,6 +86,44 @@ class AccountControllerTest {
     }
 
     @Test
+    void registerCustomAccountAdminTest() throws Exception {
+        //give
+        Map<String, String> input = new HashMap<>();
+        input.put("email", "admin@admin.com");
+        input.put("name", "test_admin_name");
+        input.put("password", "test_admin_password");
+        input.put("phoneNumber","01000001111");
+
+        //when
+        mockMvc.perform(RestDocumentationRequestBuilders.post("/api/account/v1/auth/signup/custom/account/admin")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(input))
+                )
+                //then
+                .andExpect(status().isOk())
+                .andDo(print())
+
+                //docs
+                .andDo(document("register-custom-account-admin",
+                        requestFields(
+                                fieldWithPath("email").description("회원가입 하고자 하는 email"),
+                                fieldWithPath("name").description("회원가입 하고자 하는 name"),
+                                fieldWithPath("password").description("회원가입 하고자 하는 password"),
+                                fieldWithPath("phoneNumber").description("회원가입 하고자 하는 phoneNumber")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("logging을 위한 api response 고유 ID"),
+                                fieldWithPath("dateTime").description("response time"),
+                                fieldWithPath("success").description("정상 응답 여부"),
+                                fieldWithPath("response.userRole").description("회원가입 성공한 사용자의 역할"),
+                                fieldWithPath("error").description("error 발생 시 에러 정보")
+                        )
+                ))
+                .andExpect(jsonPath("$.response.userRole", is(notNullValue())));
+    }
+
+
+    @Test
     void signInCustomAccountTest() throws Exception {
 
         //give

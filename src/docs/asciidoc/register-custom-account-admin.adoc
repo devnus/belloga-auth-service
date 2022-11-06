@@ -1,0 +1,15 @@
+[[api-register-custom-account-admin]]
+=== 관리자 자체 회원가입 API
+관리자가 자체(custom) 회원가입 방법으로 회원가입을 진행합니다.
+
+====== 요청 형식
+include::{snippets}/register-custom-account-admin/http-request.adoc[]
+====== Request Body
+include::{snippets}/register-custom-account-admin/request-body.adoc[]
+====== 응답 형식
+include::{snippets}/register-custom-account-admin/http-response.adoc[]
+include::{snippets}/register-custom-account-admin/response-fields.adoc[]
+====== Response Body
+include::{snippets}/register-custom-account-admin/response-body.adoc[]
+====== Try with curl
+include::{snippets}/register-custom-account-admin/curl-request.adoc[]
