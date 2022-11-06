@@ -83,4 +83,21 @@ public class KafkaConsumerConfig {
         factory.setConsumerFactory(eventRegisterLabelerSagaPatternFactory());
         return factory;
     }
+
+    @Bean
+    ConsumerFactory<String, EventAccount.RegisterAdminSaga> eventRegisterAdminSagaPatternFactory(){
+        JsonDeserializer<EventAccount.RegisterAdminSaga> deserializer = new JsonDeserializer<>(EventAccount.RegisterAdminSaga.class);
+
+        deserializer.setRemoveTypeHeaders(false);
+        deserializer.addTrustedPackages("*");
+        deserializer.setUseTypeMapperForKey(true);
+        return new DefaultKafkaConsumerFactory<>(configProps(), new StringDeserializer(), deserializer);
+    }
+
+    @Bean
+    ConcurrentKafkaListenerContainerFactory<String, EventAccount.RegisterAdminSaga> eventRegisterAdminSagaPatternListener(){
+        ConcurrentKafkaListenerContainerFactory<String, EventAccount.RegisterAdminSaga> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(eventRegisterAdminSagaPatternFactory());
+        return factory;
+    }
 }

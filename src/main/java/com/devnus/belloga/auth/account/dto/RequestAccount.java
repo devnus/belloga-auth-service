@@ -53,4 +53,23 @@ public class RequestAccount {
         @NotNull
         private String token;
     }
+
+    @Builder
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class RegisterCustomAccountAdmin {
+        @NotNull
+        @Email
+        private String email;
+        @NotNull
+        @Size(min = 5, max = 30)
+        private String password;
+        @NotNull
+        @Size(min = 1, max = 100)
+        private String name;
+        @NotNull
+        @Size(min = 1, max = 100)
+        private String phoneNumber;
+    }
 }

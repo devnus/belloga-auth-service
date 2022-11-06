@@ -38,14 +38,28 @@ public class AccountController {
         logger.info("register custom account enterprise auth-service");
         CommonResponse response = CommonResponse.builder()
                 .success(true)
-                .response(accountService.saveCustomAccount(request))
+                .response(accountService.saveCustomAccountEnterprise(request))
                 .build();
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     /**
-     * 기업 사용자의 자체 계정 로그인
+     * 관리자의 자체 계정 회원가입
+     */
+    @PostMapping("/v1/auth/signup/custom/account/admin")
+    public ResponseEntity<CommonResponse> registerCustomAccountAdmin(@Valid @RequestBody RequestAccount.RegisterCustomAccountAdmin request) {
+        logger.info("register custom account enterprise auth-service");
+        CommonResponse response = CommonResponse.builder()
+                .success(true)
+                .response(accountService.saveCustomAccountAdmin(request))
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    /**
+     * Custom 사용자의 자체 계정 로그인
      */
     @PostMapping("/v1/auth/signin/custom/account")
     public ResponseEntity<CommonResponse> signInCustomAccount(@Valid @RequestBody RequestAccount.SignInCustomAccount request) {

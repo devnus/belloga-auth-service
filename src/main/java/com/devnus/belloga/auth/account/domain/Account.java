@@ -23,7 +23,7 @@ public abstract class Account extends BaseTimeEntity {
     private String id;
 
     @Column(name = "username")
-    private String username; //기업이면 이메일, Oauth면 식별값
+    private String username; //Custom이면 이메일, Oauth면 식별값
 
     @Column(name = "is_locked")
     private boolean isLocked;

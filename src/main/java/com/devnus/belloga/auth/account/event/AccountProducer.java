@@ -13,6 +13,8 @@ public class AccountProducer {
     private String REGISTER_ENTERPRISE_TOPIC;
     @Value(value = "${app.topic.account.register-labeler}")
     private String REGISTER_LABELER_TOPIC;
+    @Value(value = "${app.topic.account.register-admin}")
+    private String REGISTER_ADMIN_TOPIC;
 
     public void registerEnterprise(Object event) {
         kafkaTemplate.send(REGISTER_ENTERPRISE_TOPIC, event);
@@ -20,5 +22,9 @@ public class AccountProducer {
 
     public void registerLabeler(Object event) {
         kafkaTemplate.send(REGISTER_LABELER_TOPIC, event);
+    }
+
+    public void registerAdmin(Object event) {
+        kafkaTemplate.send(REGISTER_ADMIN_TOPIC, event);
     }
 }

@@ -45,4 +45,20 @@ public class AccountConsumer {
             logger.info(event.getAccountId() + " 등록 성공(Saga)");
         }
     }
+
+    /**
+     * 관리자 등록 후 사가 패턴으로 응답을 받아 보상 트랜잭션 처리
+     * @param event
+     * @throws IOException
+     */
+    @KafkaListener(topics = "register-admin-saga", groupId = "register-admin-saga-1", containerFactory = "eventRegisterAdminSagaPatternListener")
+    protected void consumeRegisterAdminSagaPattern(EventAccount.RegisterAdminSaga event) throws IOException {
+        if(!event.isSuccess()) {
+            // 등록 실패 시 보상 트랜잭션
+            accountService.deleteRegisteredAccount(event.getAccountId());
+            logger.info(event.getAccountId() + " Saga 보상 트랜잭션 발행");
+        } else {
+            logger.info(event.getAccountId() + " 등록 성공(Saga)");
+        }
+    }
 }

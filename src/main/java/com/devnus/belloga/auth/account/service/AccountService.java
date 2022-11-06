@@ -7,8 +7,9 @@ import com.devnus.belloga.auth.account.dto.ResponseOauth;
 
 public interface AccountService {
     ResponseAccount.SignInAccount authenticateCustomAccount(RequestAccount.SignInCustomAccount request);
-    ResponseAccount.RegisterAccount saveCustomAccount(RequestAccount.RegisterCustomAccountEnterprise request);
+    ResponseAccount.RegisterAccount saveCustomAccountEnterprise(RequestAccount.RegisterCustomAccountEnterprise request);
     ResponseAccount.SignInAccount authenticateOauthAccount(ResponseOauth.UserInfo userInfo, AuthProvider authProvider);
     ResponseAccount.SignInAccount saveOauthAccount(ResponseOauth.UserInfo userInfo, AuthProvider authProvider);
     boolean deleteRegisteredAccount(String accountId);
+    ResponseAccount.RegisterAccount saveCustomAccountAdmin(RequestAccount.RegisterCustomAccountAdmin request);
 }

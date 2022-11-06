@@ -30,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
      */
     @Override
     @Transactional
-    public ResponseAccount.RegisterAccount saveCustomAccount(RequestAccount.RegisterCustomAccountEnterprise request) {
+    public ResponseAccount.RegisterAccount saveCustomAccountEnterprise(RequestAccount.RegisterCustomAccountEnterprise request) {
 
         //중복 아이디 확인
         if(accountRepository.existsByUsername(request.getEmail() + AuthProvider.CUSTOM)) {
@@ -53,6 +53,38 @@ public class AccountServiceImpl implements AccountService {
                 .organization(request.getOrganization())
                 .build();
         accountProducer.registerEnterprise(event);
+
+        return ResponseAccount.RegisterAccount.builder()
+                .userRole(account.getUserRole())
+                .build();
+    }
+
+    /**
+     * 관리자의 자체 회원가입
+     */
+    @Transactional
+    @Override
+    public ResponseAccount.RegisterAccount saveCustomAccountAdmin(RequestAccount.RegisterCustomAccountAdmin request) {
+        //중복 아이디 확인
+        if(accountRepository.existsByUsername(request.getEmail() + AuthProvider.CUSTOM)) {
+            throw new DuplicateAccountException("아이디가 중복되었습니다");
+        }
+        Account account = (Account) accountRepository.save(CustomAccount.builder()
+                .id(SecurityUtil.encryptSHA256(request.getEmail() + AuthProvider.CUSTOM))//여기에 해쉬값 추가
+                .username(request.getEmail() + AuthProvider.CUSTOM)
+                .password(SecurityUtil.encryptSHA256(request.getPassword()))//여기에 암호화 추가
+                .isLocked(false)
+                .userRole(UserRole.ADMIN)
+                .build());
+
+        // register-admin 토픽으로 보내기
+        EventAccount.RegisterAdmin event = EventAccount.RegisterAdmin.builder()
+                .accountId(account.getId())
+                .email(request.getEmail())
+                .name(request.getName())
+                .phoneNumber(request.getPhoneNumber())
+                .build();
+        accountProducer.registerAdmin(event);
 
         return ResponseAccount.RegisterAccount.builder()
                 .userRole(account.getUserRole())
