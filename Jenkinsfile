@@ -157,7 +157,7 @@ pipeline {
             steps {
                 sshagent (credentials: ['bestion-ssh']) { // use SSH Agent
                 sh """
-                    ssh -o StrictHostKeyChecking=no ubuntu@43.200.60.243 '
+                    ssh -o StrictHostKeyChecking=no ubuntu@3.37.128.228 '
                     kubectl set image deploy auth-service-v1 auth-service=${IMAGE_NAME}:${BUILD_NUMBER}
                     '
                 """
