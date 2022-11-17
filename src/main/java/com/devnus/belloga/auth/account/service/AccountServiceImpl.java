@@ -161,7 +161,6 @@ public class AccountServiceImpl implements AccountService {
                 .birthYear(userInfo.getBirthYear())
                 .email(userInfo.getEmail())
                 .name(userInfo.getName())
-                .phoneNumber(userInfo.getPhoneNumber())
                 .build();
         accountProducer.registerLabeler(event);
 

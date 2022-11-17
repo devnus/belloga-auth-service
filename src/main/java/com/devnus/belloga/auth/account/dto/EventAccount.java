@@ -38,7 +38,6 @@ public class EventAccount {
         private String accountId;
         private String email;
         private String name;
-        private String phoneNumber;
         private String birthYear;
     }
 

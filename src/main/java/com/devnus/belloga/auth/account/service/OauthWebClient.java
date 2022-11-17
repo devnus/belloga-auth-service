@@ -40,7 +40,6 @@ public class OauthWebClient {
                 .birthYear((String) response.get("birthyear"))
                 .email((String) response.get("email"))
                 .id((String) response.get("id"))
-                .phoneNumber((String) response.get("mobile"))
                 .name((String) response.get("nickname"))
                 .build();
     }
